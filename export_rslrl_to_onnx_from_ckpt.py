@@ -22,8 +22,13 @@ import gymnasium as gym
 
 # IsaacLab
 from isaaclab_tasks.utils.hydra import hydra_task_config
-from isaaclab.envs import DirectRLEnvCfg, ManagerBasedRLEnvCfg, DirectMARLEnvCfg
-from isaaclab.envs import multi_agent_to_single_agent
+from isaaclab.envs import (
+    DirectRLEnvCfg,
+    ManagerBasedRLEnvCfg,
+    DirectMARLEnvCfg,
+    DirectMARLEnv,
+    multi_agent_to_single_agent,
+)
 from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper
 
 # RSL-RL
@@ -38,7 +43,7 @@ try:
 except Exception as e:
     print("❌ ERROR: Missing exporter utilities from whole_body_tracking.")
     print("Make sure your Python environment contains:")
-    print("   whole_body_tracking/utils/exporter.py")
+    print("   whole_body_tracking/source/whole_body_tracking/whole_body_tracking/utils/exporter.py")
     raise e
 
 
@@ -48,20 +53,40 @@ except Exception as e:
 
 parser = argparse.ArgumentParser(description="Export RSL-RL policy checkpoint to ONNX")
 
-parser.add_argument("--checkpoint", type=str, required=True,
-                    help="Path to the .pt checkpoint downloaded from WandB")
+parser.add_argument(
+    "--checkpoint",
+    type=str,
+    required=True,
+    help="Path to the .pt checkpoint downloaded from WandB",
+)
 
-parser.add_argument("--output", type=str, required=True,
-                    help="Path to save the exported .onnx model")
+parser.add_argument(
+    "--output",
+    type=str,
+    required=True,
+    help="Path to save the exported .onnx model",
+)
 
-parser.add_argument("--task", type=str, default="whole_body_tracking/G1PunchTask",
-                    help="IsaacLab task name")
+parser.add_argument(
+    "--task",
+    type=str,
+    default="Tracking-Flat-G1-v0",
+    help="IsaacLab task name (must match training task)",
+)
 
-parser.add_argument("--num_envs", type=int, default=1,
-                    help="Number of envs for dummy environment")
+parser.add_argument(
+    "--num_envs",
+    type=int,
+    default=1,
+    help="Number of envs for dummy environment",
+)
 
-parser.add_argument("--device", type=str, default="cpu",
-                    help="Device to use for inference and export")
+parser.add_argument(
+    "--device",
+    type=str,
+    default="cpu",
+    help="Device to use for inference and export (e.g. 'cpu' or 'cuda:0')",
+)
 
 args = parser.parse_args()
 
@@ -77,6 +102,7 @@ print("==============================================")
 print(f"Checkpoint: {checkpoint_path}")
 print(f"Output ONNX: {output_path}")
 print(f"Task: {args.task}")
+print(f"Device: {args.device}")
 print("==============================================")
 
 
@@ -85,8 +111,10 @@ print("==============================================")
 # -------------------------------------------------------------------------
 
 @hydra_task_config(args.task, "rsl_rl_cfg_entry_point")
-def load_config(env_cfg: DirectRLEnvCfg | ManagerBasedRLEnvCfg | DirectMARLEnvCfg,
-                agent_cfg: RslRlOnPolicyRunnerCfg):
+def load_config(
+    env_cfg: DirectRLEnvCfg | ManagerBasedRLEnvCfg | DirectMARLEnvCfg,
+    agent_cfg: RslRlOnPolicyRunnerCfg,
+):
     """Return loaded configs."""
     return env_cfg, agent_cfg
 
@@ -96,22 +124,27 @@ env_cfg, agent_cfg = load_config()
 # Fix environment count
 env_cfg.scene.num_envs = args.num_envs
 
+# Ensure device consistency
+agent_cfg.device = args.device
+device = torch.device(args.device)
+
 # -------------------------------------------------------------------------
-# Create environment (NO Isaac Sim required)
+# Create environment (no Isaac Sim GUI required)
 # -------------------------------------------------------------------------
 
 print("→ Creating dummy IsaacLab environment...")
 env = gym.make(
     args.task,
     cfg=env_cfg,
-    headless=True,
-    render_mode=None,
+    render_mode=None,   # no video, pure headless
 )
-if isinstance(env.unwrapped, DirectMARLEnvCfg):
+
+# If the underlying env is multi-agent, convert to single-agent
+if isinstance(env.unwrapped, DirectMARLEnv):
     env = multi_agent_to_single_agent(env)
 
+# Wrap environment for RSL-RL
 env = RslRlVecEnvWrapper(env)
-device = torch.device(args.device)
 
 # -------------------------------------------------------------------------
 # Load PPO policy from checkpoint
@@ -150,7 +183,7 @@ export_motion_policy_as_onnx(
     filename=os.path.basename(output_path),
 )
 
-# Attach metadata
+# Attach metadata (we store the checkpoint path in the metadata)
 attach_onnx_metadata(env.unwrapped, checkpoint_path, export_dir)
 
 print("==============================================")
