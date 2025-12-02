@@ -108,3 +108,6 @@ desktop.ini
 # environment.yml
 # requirements.txt
 
+
+# Ignore embedded rsl_rl repo
+LeggGym/rsl_rl/
