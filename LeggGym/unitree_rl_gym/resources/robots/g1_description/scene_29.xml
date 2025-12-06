@@ -18,7 +18,7 @@
              rgb1="0 0 0" rgb2="0 0 0"
              width="512" height="3072"/>
 
-    <!-- Renamed to avoid name collision with textures inside g1_29dof.xml -->
+    <!-- Renamed to avoid name collision with textures inside g1_23dof.xml -->
     <texture type="2d" name="groundplane_29" builtin="checker" mark="edge"
              rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
              markrgb="0.8 0.8 0.8"
