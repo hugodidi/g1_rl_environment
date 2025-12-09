@@ -50,16 +50,6 @@ echo "deb [trusted=yes] https://github.com/qiayuanl/unitree_buildfarm/raw/jammy-
 
 echo "yaml https://github.com/qiayuanl/unitree_buildfarm/raw/jammy-humble-amd64/local.yaml humble" \
   > /etc/ros/rosdep/sources.list.d/1-qiayuanl_unitree_buildfarm.list
-  
-
-echo "deb [trusted=yes] https://github.com/qiayuanl/legged_buildfarm/raw/jammy-humble-amd64/ ./" | sudo tee /etc/apt/sources.list.d/qiayuanl_legged_buildfarm.list && \
-    echo "yaml https://github.com/qiayuanl/legged_buildfarm/raw/jammy-humble-amd64/local.yaml humble" | sudo tee /etc/ros/rosdep/sources.list.d/1-qiayuanl_legged_buildfarm.list && \
-    apt-get update && apt-get install -y \
-    ros-humble-legged-control-base && \
-    echo "deb [trusted=yes] https://github.com/qiayuanl/simulation_buildfarm/raw/jammy-humble-amd64/ ./" | sudo tee /etc/apt/sources.list.d/qiayuanl_simulation_buildfarm.list && \
-    echo "yaml https://github.com/qiayuanl/simulation_buildfarm/raw/jammy-humble-amd64/local.yaml humble" | sudo tee /etc/ros/rosdep/sources.list.d/1-qiayuanl_simulation_buildfarm.list && \
-    apt-get update && apt-get install -y \
-    ros-humble-mujoco-ros2-control
 
 ##############################################
 # 2. Update APT
