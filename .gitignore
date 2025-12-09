@@ -8,9 +8,6 @@ __pycache__/
 *.pdb
 *.egg-info/
 *.eggs/
-*.pkl
-*.pickle
-*.npz
 *.npy
 *.h5
 *.pth
@@ -41,7 +38,6 @@ wandb/
 tensorboard/
 tb_logs/
 *.log
-*.csv
 
 # MuJoCo
 .mujoco/
@@ -108,6 +104,3 @@ desktop.ini
 # environment.yml
 # requirements.txt
 
-
-# Ignore embedded rsl_rl repo
-LeggGym/rsl_rl/
