@@ -1,17 +1,15 @@
 import time
+import os
+
+os.environ.setdefault("MUJOCO_GL", "glfw")
+os.environ.setdefault("__NV_PRIME_RENDER_OFFLOAD", "1")
+os.environ.setdefault("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 
 import mujoco.viewer
 import mujoco
 import numpy as np
-
 import torch
 import yaml
-
-import os
-
-os.environ["MUJOCO_GL"] = "egl"
-os.environ["EGL_DEVICE_ID"] = "0"
-os.environ["DRI_PRIME"] = "1"
 
 from legged_gym import LEGGED_GYM_ROOT_DIR
 

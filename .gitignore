@@ -104,3 +104,9 @@ desktop.ini
 # environment.yml
 # requirements.txt
 
+# =========================================
+#  Local agent notes
+# =========================================
+agent/
+
+*__pycache__/*
