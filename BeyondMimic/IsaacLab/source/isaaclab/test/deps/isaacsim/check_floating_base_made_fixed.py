@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
 # All rights reserved.
 #
 # SPDX-License-Identifier: BSD-3-Clause
@@ -31,6 +31,7 @@ simulation_app = SimulationApp({"headless": args_cli.headless})
 """Rest everything follows."""
 
 import logging
+
 import torch
 
 import isaacsim.core.utils.nucleus as nucleus_utils
@@ -40,12 +41,12 @@ import omni.kit.commands
 import omni.physx
 from isaacsim.core.api.world import World
 from isaacsim.core.prims import Articulation
-from isaacsim.core.utils.carb import set_carb_setting
 from isaacsim.core.utils.viewports import set_camera_view
 from pxr import PhysxSchema, UsdPhysics
 
 # import logger
 logger = logging.getLogger(__name__)
+
 
 # check nucleus connection
 if nucleus_utils.get_assets_root_path() is None:
@@ -78,7 +79,7 @@ def main():
 
     # Enable hydra scene-graph instancing
     # this is needed to visualize the scene when flatcache is enabled
-    set_carb_setting(world._settings, "/persistent/omnihydra/useSceneGraphInstancing", True)
+    world._settings.set_bool("/persistent/omnihydra/useSceneGraphInstancing", True)
 
     # Spawn things into stage
     # Ground-plane

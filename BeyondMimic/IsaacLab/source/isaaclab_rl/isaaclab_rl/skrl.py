@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
 # All rights reserved.
 #
 # SPDX-License-Identifier: BSD-3-Clause
@@ -18,7 +18,7 @@ Or, equivalently, by directly calling the skrl library API as follows:
 .. code-block:: python
 
     from skrl.envs.torch.wrappers import wrap_env  # for PyTorch, or...
-    from skrl.envs.jax.wrappers import wrap_env    # for JAX
+    from skrl.envs.jax.wrappers import wrap_env  # for JAX
 
     env = wrap_env(env, wrapper="isaaclab")
 
@@ -38,7 +38,7 @@ Vectorized environment wrapper.
 
 def SkrlVecEnvWrapper(
     env: ManagerBasedRLEnv | DirectRLEnv | DirectMARLEnv,
-    ml_framework: Literal["torch", "jax", "jax-numpy"] = "torch",
+    ml_framework: Literal["torch", "jax", "warp"] = "torch",
     wrapper: Literal["auto", "isaaclab", "isaaclab-single-agent", "isaaclab-multi-agent"] = "isaaclab",
 ):
     """Wraps around Isaac Lab environment for skrl.
@@ -77,9 +77,11 @@ def SkrlVecEnvWrapper(
         from skrl.envs.wrappers.torch import wrap_env
     elif ml_framework.startswith("jax"):
         from skrl.envs.wrappers.jax import wrap_env
+    elif ml_framework.startswith("warp"):
+        from skrl.envs.wrappers.warp import wrap_env
     else:
-        ValueError(
-            f"Invalid ML framework for skrl: {ml_framework}. Available options are: 'torch', 'jax' or 'jax-numpy'"
+        raise ValueError(
+            f"Invalid ML framework for skrl: {ml_framework}. Available options are: 'torch', 'jax', 'warp'"
         )
 
     # wrap and return the environment

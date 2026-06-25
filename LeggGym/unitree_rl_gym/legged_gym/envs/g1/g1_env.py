@@ -105,29 +105,9 @@ class G1Robot(LeggedRobot):
     
     def _reward_feet_swing_height(self):
         contact = torch.norm(self.contact_forces[:, self.feet_indices, :3], dim=2) > 1.
-        pos_error = torch.square(self.feet_pos[:, :, 2] - 0.10) * ~contact
+        pos_error = torch.square(self.feet_pos[:, :, 2] - 0.08) * ~contact
         return torch.sum(pos_error, dim=(1))
     
-    def _reward_swing_contact(self):
-        contact = self.contact_forces[:, self.feet_indices, 2] > 1.
-        is_swing = self.leg_phase >= 0.55
-        return torch.sum(contact & is_swing, dim=1)
-
-    def _reward_forward_progress(self):
-        command_x = torch.clamp(self.commands[:, 0], min=0.0)
-        forward_vel = torch.clamp(self.base_lin_vel[:, 0], min=0.0)
-        return torch.minimum(forward_vel, command_x + 0.2)
-
-    def _reward_feet_too_close(self):
-        if self.feet_num < 2:
-            return torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
-        feet_rel_w = self.feet_pos[:, :2, :] - self.base_pos.unsqueeze(1)
-        base_quat = self.base_quat.unsqueeze(1).repeat(1, 2, 1).reshape(-1, 4)
-        feet_rel_b = quat_rotate_inverse(base_quat, feet_rel_w.reshape(-1, 3)).view(self.num_envs, 2, 3)
-        lateral_distance = torch.abs(feet_rel_b[:, 0, 1] - feet_rel_b[:, 1, 1])
-        min_distance = self.cfg.rewards.min_feet_separation
-        return torch.clamp(min_distance - lateral_distance, min=0.0) / min_distance
-
     def _reward_alive(self):
         # Reward for staying alive
         return 1.0

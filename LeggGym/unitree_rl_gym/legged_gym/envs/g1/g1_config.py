@@ -64,51 +64,37 @@ class G1RoughCfg( LeggedRobotCfg ):
         terminate_after_contacts_on = ["pelvis"]
         self_collisions = 0 # 1 to disable, 0 to enable...bitwise filter
         flip_visual_attachments = False
+  
+    class rewards( LeggedRobotCfg.rewards ):
+        soft_dof_pos_limit = 0.9
+        base_height_target = 0.78
+        
+        class scales( LeggedRobotCfg.rewards.scales ):
+            tracking_lin_vel = 3.5
+            tracking_ang_vel = 1
+            lin_vel_z = -2.0
+            ang_vel_xy = -0.05
+            orientation = -2.0
+            base_height = -10.0
+            dof_acc = -2.5e-7
+            dof_vel = -1e-3
+            feet_air_time = 0.05
+            collision = 0.0
+            action_rate = -0.01
+            dof_pos_limits = -5.0
+            alive = 0.8
+            hip_pos = -1.0
+            contact_no_vel = -0.2
+            feet_swing_height = -20.0
+            contact = 0.15
 
     class commands(LeggedRobotCfg.commands):
         heading_command = False
 
         class ranges(LeggedRobotCfg.commands.ranges):
-            lin_vel_x = [0.15, 0.9]
-            lin_vel_y = [-0.12, 0.12]
-            ang_vel_yaw = [-0.3, 0.3]
-
-    class terrain(LeggedRobotCfg.terrain):
-        mesh_type = 'heightfield'
-        curriculum = True
-        max_init_terrain_level = 0
-        num_rows = 5
-        num_cols = 10
-        terrain_proportions = [0.45, 0.25, 0.15, 0.10, 0.05]
-
-    class rewards(LeggedRobotCfg.rewards):
-        soft_dof_pos_limit = 0.9
-        base_height_target = 0.78
-        min_feet_separation = 0.16
-
-        class scales(LeggedRobotCfg.rewards.scales):
-            tracking_lin_vel = 2.0
-            forward_progress = 0.4
-            tracking_ang_vel = 0.25
-            lin_vel_z = -3.0
-            ang_vel_xy = -0.08
-            orientation = -1.0
-            base_height = -10.0
-            dof_acc = -4e-7
-            dof_vel = -1e-3
-            feet_air_time = 0.02
-            collision = 0.0
-            action_rate = -0.018
-            dof_pos_limits = -5.0
-            alive = 0.15
-            hip_pos = -0.6
-            contact_no_vel = -0.2
-            feet_swing_height = -18.0
-            contact = 0.10
-            swing_contact = -0.08
-            feet_too_close = -0.25
-
-
+            lin_vel_x = [-0.1, 2.5]
+            lin_vel_y = [-0.0, 0.0]
+            ang_vel_yaw = [-0.0, 0.0]
 
 class G1RoughCfgPPO( LeggedRobotCfgPPO ):
     class policy:

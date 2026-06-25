@@ -1,6 +1,173 @@
 Changelog
 ---------
 
+0.11.16 (2026-04-21)
+~~~~~~~~~~~~~~~~~~~~
+
+Changed
+^^^^^^^
+
+* Updated some agents' configuration files for the skrl library to support the new version of skrl 2.0.
+
+0.11.15 (2026-03-07)
+~~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added ``Isaac-Stack-Cube-RedGreen-Franka-IK-Rel-v0``, ``Isaac-Stack-Cube-RedGreenBlue-Franka-IK-Rel-v0``,
+  ``Isaac-Stack-Cube-BlueGreen-Franka-IK-Rel-v0``, and ``Isaac-Stack-Cube-BlueGreenRed-Franka-IK-Rel-v0`` environments.
+
+
+0.11.14 (2026-02-27)
+~~~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Refactored automation scripts (``run_w_id.py`` and ``run_disassembly_w_id.py``) to use list-based command execution
+  via ``subprocess.run``. This avoids potential command injection risks by disabling shell execution and
+  properly handling environment variables.
+
+
+0.11.13 (2026-02-04)
+~~~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Fixed incorrect hardcoded joint index for ``drawer_top_joint`` in
+  :class:`~isaaclab_tasks.direct.franka_cabinet.FrankaCabinetEnv`. The drawer joint
+  index is now dynamically resolved using ``find_joints()`` at start, instead of assuming
+  index 3, which caused incorrect rewards and termination conditions.
+
+
+0.11.12 (2025-12-16)
+~~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added ``Isaac-Deploy-GearAssembly`` environments.
+
+
+0.11.11 (2025-12-16)
+~~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added reaching task environments for OpenArm unimanual robot:
+  * :class:`OpenArmReachEnvCfg`; Gym ID ``Isaac-Reach-OpenArm-v0``.
+  * :class:`OpenArmReachEnvCfg_PLAY`; Gym ID ``Isaac-Reach-OpenArm-Play-v0``.
+* Added lifting a cube task environments for OpenArm unimanual robot:
+  * :class:`OpenArmCubeLiftEnvCfg`; Gym ID ``Isaac-Lift-Cube-OpenArm-v0``.
+  * :class:`OpenArmCubeLiftEnvCfg_PLAY`; Gym ID ``Isaac-Lift-Cube-OpenArm-Play-v0``.
+* Added opening a drawer task environments for OpenArm unimanual robot:
+  * :class:`OpenArmCabinetEnvCfg`; Gym ID ``Isaac-Open-Drawer-OpenArm-v0``.
+  * :class:`OpenArmCabinetEnvCfg_PLAY`; Gym ID ``Isaac-Open-Drawer-OpenArm-Play-v0``.
+* Added reaching task environments for OpenArm bimanual robot:
+  * :class:`OpenArmReachEnvCfg`; Gym ID ``Isaac-Reach-OpenArm-Bi-v0``.
+  * :class:`OpenArmReachEnvCfg_PLAY`; Gym ID ``Isaac-Reach-OpenArm-Bi-Play-v0``.
+
+
+0.11.10 (2025-12-13)
+~~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added obs_groups to the RSL-RL PPO agent configuration for the ``Isaac-Reach-UR10e-v0`` environment.
+* Changed self.state_space to 19 in the ``Isaac-Reach-UR10e-ROS-Inference-v0`` environment.
+
+
+0.11.9 (2025-11-10)
+~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added OpenXR motion controller support for the G1 robot locomanipulation environment
+  ``Isaac-PickPlace-Locomanipulation-G1-Abs-v0``. This enables teleoperation using XR motion controllers
+  in addition to hand tracking.
+* Added :class:`OpenXRDeviceMotionController` for motion controller-based teleoperation with headset anchoring control.
+* Added motion controller-specific retargeters:
+  * :class:`G1TriHandControllerUpperBodyRetargeterCfg` for upper body and hand control using motion controllers.
+  * :class:`G1LowerBodyStandingControllerRetargeterCfg` for lower body control using motion controllers.
+
+
+0.11.8 (2025-11-06)
+~~~~~~~~~~~~~~~~~~~
+
+Changed
+^^^^^^^
+
+* Changed to use of ``num_rerenders_on_reset`` and ``DLAA`` in visuomotor imitation learning environments.
+
+
+0.11.7 (2025-10-22)
+~~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Ensured all imports follows the string import style instead of direct import of environment.
+
+
+0.11.6 (2025-10-23)
+~~~~~~~~~~~~~~~~~~~
+
+Changed
+^^^^^^^
+
+* Refined further the anchor position for the XR anchor in the world frame for the G1 robot tasks.
+
+
+0.11.5 (2025-10-22)
+~~~~~~~~~~~~~~~~~~~
+
+Removed
+^^^^^^^
+
+* Removed scikit-learn dependency because we are no longer using this package.
+
+
+0.11.4 (2025-10-20)
+~~~~~~~~~~~~~~~~~~~~
+
+Changed
+^^^^^^^
+
+* Fixed the anchor position for the XR anchor in the world frame for the G1 robot tasks.
+
+
+0.11.3 (2025-10-15)
+~~~~~~~~~~~~~~~~~~~~
+
+Changed
+^^^^^^^
+
+* Changed how the Sim rendering settings are modified by the Cosmos-Mimic env cfg.
+
+
+0.11.2 (2025-10-10)
+~~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added OpenXRteleoperation devices to the Galbot stack environments.
+
+
+0.11.1 (2025-09-24)
+~~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added dextrous lifting pbt configuration example cfg for rl_games.
+
+
 0.11.0 (2025-09-07)
 ~~~~~~~~~~~~~~~~~~~~
 

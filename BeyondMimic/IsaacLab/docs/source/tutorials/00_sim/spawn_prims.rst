@@ -114,7 +114,7 @@ Here we make an Xform prim to group all the primitive shapes under it.
 .. literalinclude:: ../../../../scripts/tutorials/00_sim/spawn_prims.py
    :language: python
    :start-at: # create a new xform prim for all objects to be spawned under
-   :end-at: prim_utils.create_prim("/World/Objects", "Xform")
+   :end-at: sim_utils.create_prim("/World/Objects", "Xform")
 
 Next, we spawn a cone using the :class:`~sim.spawners.shapes.ConeCfg` class. It is possible to specify
 the radius, height, physics properties, and material properties of the cone. By default, the physics and material
@@ -188,5 +188,5 @@ demonstrates the basic concepts of scene designing in Isaac Lab and how to use t
 we will now look at how to interact with the scene and the simulation.
 
 
-.. _`USD documentation`: https://graphics.pixar.com/usd/docs/index.html
+.. _`USD documentation`: https://openusd.org/release/index.html
 .. _`different light prims`: https://youtu.be/c7qyI8pZvF4?feature=shared

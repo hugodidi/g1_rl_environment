@@ -35,12 +35,12 @@ To begin, we first define our virtual environment.
 
       .. code-block:: bash
 
-         # create a virtual environment named env_isaaclab with python3.11
+         # create a virtual environment named env_isaaclab with python3.11 and pip
          conda create -n env_isaaclab python=3.11
          # activate the virtual environment
          conda activate env_isaaclab
 
-   .. tab-item:: uv
+   .. tab-item:: uv (experimental)
 
       .. tab-set::
          :sync-group: os
@@ -50,8 +50,8 @@ To begin, we first define our virtual environment.
 
             .. code-block:: bash
 
-               # create a virtual environment named env_isaaclab with python3.11
-               uv venv --python 3.11 env_isaaclab
+               # create a virtual environment named env_isaaclab with python3.11 and pip
+               uv venv --python 3.11 --seed env_isaaclab
                # activate the virtual environment
                source env_isaaclab/bin/activate
 
@@ -100,19 +100,7 @@ and now we can install the Isaac Sim packages.
 
 Finally, we can install Isaac Lab.  To start, clone the repository using the following
 
-.. tab-set::
-
-   .. tab-item:: SSH
-
-      .. code:: bash
-
-         git clone git@github.com:isaac-sim/IsaacLab.git
-
-   .. tab-item:: HTTPS
-
-      .. code:: bash
-
-         git clone https://github.com/isaac-sim/IsaacLab.git
+.. isaaclab-clone-commands::
 
 Installation is now as easy as navigating to the repo and then calling the root script with the ``--install`` flag!
 
@@ -146,7 +134,7 @@ This method uses `NVIDIA Brev <https://brev.nvidia.com/>`_, a platform that offe
 To try now, click the button below. To learn more about how to use this project, or how to create your own Launchable, please see the project repo `here <https://github.com/isaac-sim/isaac-launchable>`_.
 
 .. image:: https://brev-assets.s3.us-west-1.amazonaws.com/nv-lb-dark.svg
-   :target: https://brev.nvidia.com/launchable/deploy?launchableID=env-31ezDWyp4LvtDQr5rUhAWOUMFhn
+   :target: https://brev.nvidia.com/launchable/deploy/now?launchableID=env-35JP2ywERLgqtD0b0MIeK1HnF46
    :alt: Click here to deploy
 
 
